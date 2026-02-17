@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>致寶貝豬的信</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body,
+      html {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+      #popup {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.9);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        z-index: 9999;
+        text-align: center;
+        padding: 20px;
+      }
+      #popup h1 {
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+        color: #838383;
+        text-shadow: 1px 1px 3px #fff;
+      }
+      .btn {
+        background: #838383;
+        border: none;
+        color: white;
+        padding: 15px 30px;
+        margin: 10px;
+        font-size: 1.2rem;
+        font-weight: bold;
+        cursor: pointer;
+        border-radius: 30px;
+        box-shadow: 0 4px 8px white;
+        user-select: none;
+        transition: background 0.3s ease;
+      }
+      .btn:hover {
+        background: #a7a7a7;
+      }
+      #letter-container {
+        display: none;
+        height: 100%;
+        padding: 40px 20px;
+        color: white;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        overflow-y: auto;
+      }
+      #letter {
+        max-width: 600px;
+        margin: 0 auto;
+        background: rgba(0, 0, 0, 0.5);
+        padding: 30px 40px;
+        border-radius: 20px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.7);
+        font-size: 1.3rem;
+        line-height: 1.6;
+        outline: none;
+        min-height: 300px;
+      }
+      #change-bg {
+        display: block;
+        margin: 30px auto 0;
+        background: #fff0f6;
+        color: #b30059;
+        border: 2px solid #b30059;
+        font-weight: bold;
+        padding: 12px 25px;
+        border-radius: 25px;
+        cursor: pointer;
+        transition: background 0.3s ease, color 0.3s ease;
+      }
+      #change-bg:hover {
+        background: #b30059;
+        color: white;
+      }
+      #letter-container {
+        display: none;
+        height: 100%;
+        padding: 40px 20px;
+        color: white;
+        background-image: url("image.jpg");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        overflow-y: auto;
+      }
+      #letter {
+        max-width: 600px;
+        margin: 0 auto;
+        background: rgba(0, 0, 0, 0.5);
+        padding: 30px 40px;
+        border-radius: 20px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.7);
+        font-size: 1.3rem;
+        line-height: 1.6;
+        outline: none;
+        min-height: 300px;
+      }
+      @media (max-width: 600px) {
+        #letter {
+          font-size: 1.1rem;
+          padding: 20px 25px;
+        }
+        .btn {
+          padding: 12px 25px;
+          font-size: 1rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="popup">
+      <h1>Do you love me?</h1>
+      <div>
+        <button class="btn" id="yes1">Yes</button>
+        <button class="btn" id="yes2">Yes</button>
+      </div>
+    </div>
+
+    <div id="letter-container">
+      <div
+        id="letter"
+        contenteditable="true"
+        spellcheck="true"
+        aria-label="Love letter content"
+      >
+        致親愛的校園精神健康大使女朋友：<br /><br />
+
+        Hehe 係咪好surprise呢。呢個就係驚天地
+        泣鬼神（雖然可能都唔係好驚喜）開估！A係花，B係NFC tag，C係黑色melody。sorry ah bb 我睇唔到你第一次打鼓showcase
+        wryyyyy. 希望你會鍾意呢份驚喜啦 hehe. <br /><br />
+
+        Btw嗰陣勁驚俾你係ig dm見到ah mui
+        個icon先冇俾你睇電話（ok想講其實已經成個星期前打好，但係係jeju已經俾你知道我地有講野wryyyyy)！！想講你估到哂勁醒lol。又估到我去搵佢，又估到我送花，又估到我送Melody，不過係係咪估唔到我送
+        黑色 Melody 呢hehe. <br /><br />
+
+        唔知你有冇印象一個月前行過葵廣然後指住個Melody嘅花。之後就靈機一觸諗到係你打鼓之後送俾你hehe,
+        我特登返去嗰間舖頭訂ga! 人地通常表演都有花收ga ma,
+        我家寶寶當然都有。想講本身訂嗰陣我淨係話要Melody +
+        黑色花。然後個老闆搵搵下居然搵到隻黑色Melody!!!!!! 嘿嘿
+        希望你鍾意啦！呢個係番梘花，如果唔濕水嘅話可以放好耐。<br /><br />
+
+        仲有你啱啱嘟嗰塊牌嘅來源係因為正常送花都會寫連埋卡ga ma (好似你而家姐咁)
+        不過我嗰陣又想諗D特別D嘅方法，最後就諗到用NFChing 嘅朋友NFC tag hehe
+        係咪好有你男朋友風格呢。<br /><br />
+
+        BTW 真系全靠你老友先送到比你 wryyyy, 如果嗰陣DM唔到佢可能就要問ows_023
+        hehe(本身係寫Thai sir hehehe). Anyways 希望你鍾意啦嘿嘿。<br /><br />
+        <i>雷曉晴的秘密男朋友上</i>
+      </div>
+    </div>
+
+    <script>
+      const popup = document.getElementById("popup");
+      const letterContainer = document.getElementById("letter-container");
+      const yesButtons = [
+        document.getElementById("yes1"),
+        document.getElementById("yes2"),
+      ];
+
+      function showLetter() {
+        popup.style.display = "none";
+        letterContainer.style.display = "block";
+      }
+
+      yesButtons.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          showLetter();
+        });
+      });
+    </script>
+  </body>
+</html>
