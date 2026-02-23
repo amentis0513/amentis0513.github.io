@@ -1,133 +1,102 @@
 <!doctype html>
-<html lang="zh-TW">
+<html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>我的 GitHub Pages 網站 - 使用 Google 登入</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Google SSO — Redirect to letter.html</title>
 
-    <!-- 告訴 Google 你的 Client ID -->
-    <meta
-      name="google-signin-client_id"
-      content="877701540997-npvcee036c6bg1ikqnk3i63akbcd0ifk.apps.googleusercontent.com"
-    />
+    <!-- Google Identity Services -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
 
     <style>
       body {
-        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-        text-align: center;
-        padding: 50px;
+        font-family:
+          system-ui,
+          -apple-system,
+          "Segoe UI",
+          Roboto,
+          "Helvetica Neue",
+          Arial;
+        padding: 2rem;
       }
-      #user-info {
-        margin: 30px auto;
-        padding: 20px;
-        border: 1px solid #ddd;
-        border-radius: 10px;
-        max-width: 400px;
-        background: #f9f9f9;
+      .container {
+        max-width: 520px;
+        margin: 0 auto;
       }
-      #user-info.hidden {
-        display: none;
-      }
-      button {
-        margin-top: 15px;
-        padding: 10px 20px;
+      #message {
+        margin-top: 1rem;
       }
     </style>
   </head>
   <body>
-    <h1>歡迎來到我的網站</h1>
-    <p>請使用 Google 帳戶登入，即可看到您的電子郵件。</p>
-
-    <!-- Google 登入按鈕會自動出現在這裡 -->
-    <div
-      id="g_id_onload"
-      data-client_id="877701540997-npvcee036c6bg1ikqnk3i63akbcd0ifk.apps.googleusercontent.com"
-      data-auto_prompt="false"
-    ></div>
-
-    <div
-      class="g_id_signin"
-      data-type="standard"
-      data-size="large"
-      data-theme="outline"
-      data-text="sign_in_with"
-      data-shape="rectangular"
-      data-logo_alignment="left"
-    ></div>
-
-    <!-- 登入成功後顯示的區域 -->
-    <div id="user-info" class="hidden">
-      <h3>登入成功！</h3>
-      <p><strong>姓名：</strong> <span id="user-name">載入中...</span></p>
-      <p><strong>電子郵件：</strong> <span id="user-email">載入中...</span></p>
-      <img
-        id="user-picture"
-        alt="頭像"
-        style="width: 80px; border-radius: 50%; margin: 10px"
-      />
-      <br />
-      <button
-        onclick="
-          google.accounts.id.disableAutoSelect();
-          location.reload();
-        "
-      >
-        登出
-      </button>
+    <div class="container">
+      <h1>Sign in with Google</h1>
+      <div id="gbutton"></div>
+      <p id="message">Not signed in.</p>
     </div>
 
-    <!-- 載入 Google Identity Services 程式庫 -->
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
-
     <script>
-      // 解碼 JWT 的輔助函式
-      function decodeJwtResponse(token) {
-        let base64Url = token.split(".")[1];
-        let base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
-        let jsonPayload = decodeURIComponent(
-          atob(base64)
-            .split("")
-            .map(function (c) {
-              return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
-            })
-            .join(""),
-        );
-        return JSON.parse(jsonPayload);
-      }
+      const CLIENT_ID =
+        "723291403650-e1a0p205fdthllg4kngnteo9dtupgc6e.apps.googleusercontent.com";
 
-      // 登入成功後的回調函式
-      function handleCredentialResponse(response) {
-        console.log("Google ID Token:", response.credential);
-
-        const payload = decodeJwtResponse(response.credential);
-
-        // 顯示使用者資訊
-        document.getElementById("user-name").textContent =
-          payload.name || "未知";
-        document.getElementById("user-email").textContent =
-          payload.email || "無法取得";
-
-        if (payload.picture) {
-          document.getElementById("user-picture").src = payload.picture;
+      // Optional: decode JWT payload client-side (used here only for display)
+      function decodeJwtPayload(token) {
+        try {
+          const parts = token.split(".");
+          if (parts.length !== 3) return null;
+          const payload = parts[1].replace(/-/g, "+").replace(/_/g, "/");
+          const padded = payload.padEnd(
+            payload.length + ((4 - (payload.length % 4)) % 4),
+            "=",
+          );
+          return JSON.parse(atob(padded));
+        } catch (e) {
+          return null;
         }
-
-        // 顯示資訊區塊，隱藏登入按鈕
-        document.getElementById("user-info").classList.remove("hidden");
-        document.querySelector(".g_id_signin").style.display = "none";
-
-        alert("登入成功！您的電子郵件是：" + payload.email);
       }
 
-      // 初始化 Google 登入
-      window.onload = function () {
+      function handleGisLoad() {
         google.accounts.id.initialize({
-          client_id:
-            "877701540997-npvcee036c6bg1ikqnk3i63akbcd0ifk.apps.googleusercontent.com",
+          client_id: CLIENT_ID,
           callback: handleCredentialResponse,
         });
-        // 可選：自動彈出 One Tap 提示
-        // google.accounts.id.prompt();
-      };
+
+        google.accounts.id.renderButton(document.getElementById("gbutton"), {
+          theme: "outline",
+          size: "large",
+        });
+      }
+
+      function handleCredentialResponse(response) {
+        if (!response || !response.credential) {
+          document.getElementById("message").textContent =
+            "Sign-in failed: no credential returned.";
+          return;
+        }
+
+        // Save ID token in sessionStorage so letter.html can use it if needed
+        sessionStorage.setItem("google_id_token", response.credential);
+
+        // Optional: show immediate feedback, then redirect
+        const payload = decodeJwtPayload(response.credential);
+        const display = payload?.email || payload?.name || "signed in";
+        document.getElementById("message").textContent =
+          "Signed in as: " + display;
+
+        // Redirect to letter.html
+        // Small delay (200ms) so message is visible briefly; remove delay if not needed
+        setTimeout(() => {
+          window.location.href = "letter.html";
+        }, 200);
+      }
+
+      (function waitForGis() {
+        if (window.google && google.accounts && google.accounts.id) {
+          handleGisLoad();
+        } else {
+          setTimeout(waitForGis, 50);
+        }
+      })();
     </script>
   </body>
 </html>
